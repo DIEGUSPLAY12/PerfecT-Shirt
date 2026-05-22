@@ -1,0 +1,374 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | perfecT-shirt</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+      <div class="container flex-between h-100">
+        <a href="../index.html" class="logo-text">perfecT-<span>shirt</span></a>
+        <nav class="nav-links">
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Pujas</a>
+          <a href="random.html">Random</a>
+          <a href="product.html">Personalizar</a>
+        </nav>
+        <div class="header-actions">
+          <div class="icon-btn" onclick="toggleSidebar('notif-modal')">
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="badge"
+              style="display: none; background: #e74c3c"
+              >0</span
+            >
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+            <i class="fa-regular fa-heart"></i>
+            <span id="fav-count" class="badge">0</span>
+          </div>
+
+          <div
+            class="icon-btn disabled-action"
+            onclick="toggleSidebar('cart-modal')"
+          >
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="badge">0</span>
+          </div>
+          <div class="currency-selector">
+            <select id="currency-select" onchange="setCurrency(this.value)">
+              <option value="EUR">EUR (€)</option>
+              <option value="USD">USD ($)</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-sm">Login</button>
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ☾
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div style="border-top: 1px solid #ccc; padding-top: 20px">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <a href="./pago.html" class="btn btn-primary btn-full">Pagar Ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- PROCESO DE PAGO (CHECKOUT) -->
+    <main class="container">
+      <div class="checkout-wrapper">
+        <h1
+          class="text-center bold uppercase"
+          style="font-size: 2rem; margin-bottom: 20px"
+        >
+          Finalizar Compra
+        </h1>
+
+        <div class="checkout-progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+          <div class="progress-step active">1</div>
+          <div class="progress-step">2</div>
+          <div class="progress-step">3</div>
+        </div>
+
+        <div class="checkout-layout">
+          <div class="checkout-forms">
+            <section class="step-panel" id="step1">
+              <div class="step-header">
+                <h3 class="bold">Datos de entrega</h3>
+              </div>
+
+              <div class="input-group">
+                <label class="bold">Nombre y Apellidos</label>
+                <input
+                  type="text"
+                  id="nombre"
+                  class="input-field"
+                  placeholder="Ej: Juan Pérez"
+                />
+                <span class="error-msg" id="error-nombre"></span>
+              </div>
+
+              <div class="input-group">
+                <label class="bold">Dirección</label>
+                <input
+                  type="text"
+                  id="direccion"
+                  class="input-field"
+                  placeholder="Calle, número, piso..."
+                />
+                <span class="error-msg" id="error-direccion"></span>
+              </div>
+
+              <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px"
+              >
+                <div class="input-group">
+                  <label class="bold">Código Postal</label>
+                  <input
+                    type="text"
+                    id="cp"
+                    class="input-field"
+                    maxlength="5"
+                  />
+                  <span class="error-msg" id="error-cp"></span>
+                </div>
+                <div class="input-group">
+                  <label class="bold">Ciudad</label>
+                  <input type="text" id="ciudad" class="input-field" />
+                  <span class="error-msg" id="error-ciudad"></span>
+                </div>
+              </div>
+
+              <div class="shipping-methods mt-20">
+                <label class="bold mb-10 d-block">Método de envío</label>
+                <label class="shipping-option">
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="1.95"
+                    checked
+                    onclick="updateShipping(1.95)"
+                  />
+                  <div class="option-content">
+                    <span class="bold">Envío Estándar</span>
+                    <span class="text-muted">3-5 días hábiles</span>
+                  </div>
+                  <span class="bold">1,95 €</span>
+                </label>
+                <label class="shipping-option mt-10">
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="3.00"
+                    onclick="updateShipping(3.0)"
+                  />
+                  <div class="option-content">
+                    <span class="bold">Envío Express</span>
+                    <span class="text-muted">Entrega 24h</span>
+                  </div>
+                  <span class="bold">3,00 €</span>
+                </label>
+              </div>
+              <button
+                class="btn btn-primary btn-full mt-20"
+                onclick="validateStep1()"
+              >
+                Continuar al pago
+              </button>
+            </section>
+
+            <section class="step-panel hidden" id="step2">
+              <div class="step-header">
+                <h3 class="bold">Método de Pago</h3>
+              </div>
+              <div class="input-group">
+                <label class="bold">Número de Tarjeta</label>
+                <input
+                  type="text"
+                  id="card-number"
+                  class="input-field"
+                  placeholder="XXXX XXXX XXXX XXXX"
+                />
+                <span class="error-msg" id="error-card-number"></span>
+              </div>
+              <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px"
+              >
+                <div class="input-group">
+                  <label class="bold">Fecha Expiración</label>
+                  <input
+                    type="text"
+                    id="card-expiry"
+                    class="input-field"
+                    placeholder="MM/AA"
+                  />
+                  <span class="error-msg" id="error-card-expiry"></span>
+                </div>
+                <div class="input-group">
+                  <label class="bold">CVV</label>
+                  <input
+                    type="text"
+                    id="card-cvv"
+                    class="input-field"
+                    maxlength="3"
+                  />
+                  <span class="error-msg" id="error-card-cvv"></span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 10px; margin-top: 20px">
+                <button class="btn btn-outline btn-full" onclick="goToStep(1)">
+                  Atrás
+                </button>
+                <button
+                  class="btn btn-primary btn-full"
+                  onclick="validateStep2()"
+                >
+                  Revisar pedido
+                </button>
+              </div>
+            </section>
+
+            <section class="step-panel hidden" id="step3">
+              <div class="step-header">
+                <h3 class="bold">Revisión Final</h3>
+              </div>
+              <div
+                class="review-box"
+                style="
+                  background: #f8f9fa;
+                  padding: 20px;
+                  border-radius: 12px;
+                  border: 1px solid #eee;
+                "
+              >
+                <h4 class="bold">Dirección de Envío</h4>
+                <p id="review-text" class="text-muted mt-10"></p>
+              </div>
+              <div style="display: flex; gap: 10px; margin-top: 20px">
+                <button class="btn btn-outline btn-full" onclick="goToStep(2)">
+                  Editar pago
+                </button>
+                <button
+                  class="btn btn-primary btn-full"
+                  onclick="completarPedido()"
+                >
+                  Pagar Ahora
+                </button>
+              </div>
+            </section>
+          </div>
+
+          <aside class="order-summary">
+            <div class="summary-card">
+              <h3 class="bold mb-20">Resumen del pedido</h3>
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="summary-subtotal">0,00 €</span>
+              </div>
+              <div class="summary-row">
+                <span>Envío</span>
+                <span id="summary-shipping">1,95 €</span>
+              </div>
+              <div
+                class="summary-row total"
+                style="
+                  border-top: 1px solid #eee;
+                  padding-top: 15px;
+                  margin-top: 15px;
+                "
+              >
+                <span class="bold">Total</span>
+                <span class="bold" id="summary-total">1,95 €</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="../js/currency.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/checkout.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/components-loader.js"></script>
+    <script src="../js/darkmode.js"></script>
+  </body>
+  <!-- PANTALLA DE CARGA -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">perfecT-<span>shirt</span></div>
+  </div>
+</html>

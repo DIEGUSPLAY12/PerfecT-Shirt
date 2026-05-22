@@ -1,0 +1,445 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Información Legal | PerfecT-shirt</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+      <div class="container flex-between h-100">
+        <a href="../index.html" class="logo-text">perfecT-<span>shirt</span></a>
+        <nav class="nav-links">
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Pujas</a>
+          <a href="random.html">Random</a>
+          <a href="product.html">Personalizar</a>
+        </nav>
+        <div class="header-actions">
+          <div class="icon-btn" onclick="toggleSidebar('notif-modal')">
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="badge"
+              style="display: none; background: #e74c3c"
+              >0</span
+            >
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+            <i class="fa-regular fa-heart"></i>
+            <span id="fav-count" class="badge">0</span>
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('cart-modal')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="badge">0</span>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="toggleLogin()">
+            Login
+          </button>
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ☾
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div style="border-top: 1px solid #ccc; padding-top: 20px">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <a href="./pago.html" class="btn btn-primary btn-full">Pagar Ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL: LEGAL -->
+    <main class="container mt-40">
+      <div class="legal-layout">
+        <aside class="legal-sidebar">
+          <nav class="legal-nav">
+            <a href="#aviso-legal" class="legal-link active">Aviso Legal</a>
+            <a href="#privacidad" class="legal-link">Política de Privacidad</a>
+            <a href="#cookies" class="legal-link">Política de Cookies</a>
+          </nav>
+        </aside>
+
+        <section class="legal-content">
+          <article id="aviso-legal" class="legal-section">
+            <h1>Aviso Legal</h1>
+
+            <h3>Condiciones generales</h3>
+            <p>
+              Esta nota legal contiene las condiciones que regulan el uso y
+              acceso al sitio web y las responsabilidades derivadas de su
+              utilización, en cumplimiento con la Ley 34/2002, de 11 de julio
+              (LSSI). Se entenderá que el acceso o la mera utilización del sitio
+              implica la adhesión del usuario a todas las condiciones publicadas
+              en ese momento.
+            </p>
+
+            <h3>Titular</h3>
+            <p>
+              <strong>PerfecT-shirt, S.L.</strong><br />
+              <strong>Domicilio comercial:</strong> C/ Ventallat, 14, 4º 409,
+              08012 Barcelona.<br />
+              <strong>Teléfono:</strong> +34 681 084 232<br />
+              <strong>Email:</strong> perfectshirt@gmail.com
+            </p>
+
+            <h3>Objeto</h3>
+            <p>
+              El objetivo de este sitio es informar de la actividad y servicios
+              que desarrolla y ofrece la empresa.
+            </p>
+
+            <h3>Derechos de Propiedad Intelectual e Industrial</h3>
+            <p>
+              La totalidad de este sitio web (descripción, texto, imágenes,
+              logotipos, software, estructura y Diseño) se encuentra protegido
+              por las Leyes españolas e internacionales sobre propiedad
+              Intelectual e Industrial. Queda prohibida la reproducción, copia,
+              distribución o cualquier otro acto de explotación sin autorización
+              expresa del titular.
+            </p>
+
+            <h3>Acceso</h3>
+            <p>
+              El acceso es libre y gratuito. No obstante, la empresa se reserva
+              el derecho de limitar el acceso a determinadas áreas mediante
+              credenciales (usuario y contraseña) facilitadas a clientes. El uso
+              de la contraseña es personal e intransferible.
+            </p>
+
+            <h3>Responsabilidad y Obligaciones</h3>
+            <p>
+              <strong>Contenido:</strong> La empresa se exime de cualquier
+              responsabilidad respecto a decisiones adoptadas por el usuario
+              basadas en la información del sitio, la cual es de carácter
+              general e informativo.
+            </p>
+            <p>
+              <strong>Enlaces (Links):</strong> La empresa declina cualquier
+              responsabilidad sobre servicios o contenidos enlazados desde este
+              sitio, ya que su función es meramente informativa y no implica
+              respaldo o patrocinio.
+            </p>
+            <p>
+              <strong>Aspectos técnicos:</strong> No se garantiza la
+              disponibilidad permanente del sitio por causas ajenas y no se
+              asume responsabilidad por daños derivados de virus o ataques
+              informáticos.
+            </p>
+
+            <h3>Legislación y Jurisdicción</h3>
+            <p>
+              Estas condiciones se rigen por la legislación española. Para
+              cualquier controversia, las partes se someten expresamente a los
+              Tribunales y Juzgados de Barcelona (España).
+            </p>
+          </article>
+
+          <hr class="mt-40 mb-20" style="opacity: 0.1" />
+
+          <article id="privacidad" class="legal-section">
+            <h1>Política de Privacidad</h1>
+
+            <h3>1. Información al Usuario</h3>
+            <p>
+              <strong>PerfecT-shirt</strong>, como RESPONSABLE, informa que los
+              datos personales serán tratados de conformidad con el Reglamento
+              (UE) 2016/679 (RGPD) y la LOPDGDD 3/2018.
+            </p>
+
+            <h3>Conservación y Comunicación</h3>
+            <p>
+              Los datos se conservarán mientras exista un interés mutuo. No se
+              comunicarán a terceros, salvo obligación legal.
+            </p>
+
+            <h3>Derechos del Usuario</h3>
+            <p>
+              El usuario tiene derecho a retirar su consentimiento, acceder,
+              rectificar, portar o suprimir sus datos, así como a presentar una
+              reclamación ante la autoridad de control (agpd.es).
+            </p>
+
+            <h3>2. Carácter Obligatorio de la Información</h3>
+            <p>
+              Los campos marcados con asterisco (*) en los formularios son
+              necesarios para atender su petición. El Usuario garantiza que los
+              datos facilitados son veraces.
+            </p>
+
+            <h3>3. Medidas de Seguridad</h3>
+            <p>
+              El RESPONSABLE garantiza que ha implementado políticas técnicas y
+              organizativas apropiadas para proteger los derechos y libertades
+              de los Usuarios según lo establecido en el RGPD.
+            </p>
+          </article>
+
+          <hr class="mt-40 mb-20" style="opacity: 0.1" />
+
+          <article id="cookies" class="legal-section">
+            <h1>Política de Cookies</h1>
+            <p>
+              Una cookie es un fichero que se descarga en su ordenador al
+              acceder a determinadas páginas web, permitiendo almacenar y
+              recuperar información sobre sus hábitos de navegación.
+            </p>
+
+            <table class="mt-20">
+              <thead>
+                <tr>
+                  <th>Cookie</th>
+                  <th>Tipo / Finalidad</th>
+                  <th>Caducidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Sesión</strong></td>
+                  <td>Técnica: Control de inicio de sesión e idioma.</td>
+                  <td>Sesión</td>
+                </tr>
+                <tr>
+                  <td><strong>_ga</strong></td>
+                  <td>Seguimiento: ID único para recuento de visitas.</td>
+                  <td>24 meses</td>
+                </tr>
+                <tr>
+                  <td><strong>_gat</strong></td>
+                  <td>Seguimiento: Limitación de solicitudes.</td>
+                  <td>1 minuto</td>
+                </tr>
+                <tr>
+                  <td><strong>_gid</strong></td>
+                  <td>Seguimiento: Distinción de usuarios.</td>
+                  <td>24 horas</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3 class="mt-40">Gestión de Cookies</h3>
+            <p>
+              Puede permitir, bloquear o eliminar las cookies instaladas en su
+              equipo mediante la configuración de su navegador:
+            </p>
+            <div class="flex-between mt-20" style="flex-wrap: wrap; gap: 10px">
+              <a
+                href="http://support.google.com/chrome/bin/answer.py?hl=es&answer=95647"
+                target="_blank"
+                class="btn btn-outline btn-sm"
+                >Chrome</a
+              >
+              <a
+                href="http://support.mozilla.org/es/products/firefox/cookies"
+                target="_blank"
+                class="btn btn-outline btn-sm"
+                >Firefox</a
+              >
+              <a
+                href="http://support.apple.com/kb/ph5042"
+                target="_blank"
+                class="btn btn-outline btn-sm"
+                >Safari</a
+              >
+              <a
+                href="http://www.opera.com/help/tutorials/security/privacy/"
+                target="_blank"
+                class="btn btn-outline btn-sm"
+                >Opera</a
+              >
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Subastas</a>
+          <a href="random.html">Random</a>
+          <a href="perfil.html">Mi cuenta</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Catálogo</h4>
+          <a href="shop.html">Ver todo</a>
+          <a href="shop.html?sale=1">Ofertas</a>
+          <a href="shop.html?sort=asc">Precio: menor a mayor</a>
+          <a href="shop.html?sort=desc">Precio: mayor a menor</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ligas</h4>
+          <a href="shop.html?league=La%20Liga">La Liga</a>
+          <a href="shop.html?league=Premier%20League">Premier League</a>
+          <a href="shop.html?league=Serie%20A">Serie A</a>
+          <a href="shop.html?league=Bundesliga">Bundesliga</a>
+          <a href="shop.html?league=Ligue%201">Ligue 1</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ayuda</h4>
+          <a href="ayuda.html#envios">Envíos</a>
+          <a href="ayuda.html#Devoluciones">Devoluciones</a>
+          <a href="ayuda.html#tallas">Guía de Tallas</a>
+          <a href="ayuda.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal.html#aviso-legal">Aviso Legal</a>
+          <a href="legal.html#privacidad">Privacidad</a>
+          <a href="legal.html#cookies">Cookies</a>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:perfectshirt@gmail.com">perfectshirt@gmail.com</a>
+            <a href="tel:+34681084232">(+34) 681 084 232</a>
+            <span class="footer-address"
+              >C/ Ventallat, 14, 4º 409, 08012 Barcelona</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="text-center"
+        style="font-size: 0.8rem; color: var(--text-muted); margin-top: 40px"
+      >
+        © 2025 PerfecT-shirt. Todos los derechos reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="../js/app.js"></script>
+    <script src="../js/datos_locales.js"></script>
+    <script src="../js/legal.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/components-loader.js"></script>
+    <script src="../js/darkmode.js"></script>
+  </body>
+  <!-- PANTALLA DE CARGA -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">perfecT-<span>shirt</span></div>
+  </div>
+</html>

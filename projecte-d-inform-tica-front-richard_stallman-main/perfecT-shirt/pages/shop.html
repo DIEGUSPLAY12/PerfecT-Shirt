@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Catálogo | PerfecT-shirt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../img/12345.png" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+      <div class="container flex-between h-100">
+        <a href="../index.html" class="logo-text">perfecT-<span>shirt</span></a>
+        <nav class="nav-links">
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Pujas</a>
+          <a href="random.html">Random</a>
+          <a href="product.html">Personalizar</a>
+        </nav>
+        <div class="header-actions">
+          <div class="icon-btn" onclick="toggleSidebar('notif-modal')">
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="badge"
+              style="display: none; background: #e74c3c"
+              >0</span
+            >
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+            <i class="fa-regular fa-heart"></i>
+            <span id="fav-count" class="badge">0</span>
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('cart-modal')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="badge">0</span>
+          </div>
+          <div class="currency-selector">
+            <select id="currency-select" onchange="setCurrency(this.value)">
+              <option value="EUR">EUR (€)</option>
+              <option value="USD">USD ($)</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="toggleLogin()">
+            Login
+          </button>
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ☾
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div style="padding-top: 20px; border-top: 1px solid #eee">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <button
+            id="btn-checkout"
+            onclick="window.location.href = 'pago.html'"
+            class="btn btn-primary btn-full"
+          >
+            Pagar Ahora
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section
+      class="hero-section"
+      style="min-height: 35vh; padding-bottom: 60px"
+    >
+      <div class="hero-content" style="width: 100%; text-align: center">
+        <h1 class="hero-title" style="font-size: 3.8rem; letter-spacing: -2px">
+          COLECCIÓN OFICIAL
+        </h1>
+        <p
+          class="hero-description"
+          style="max-width: 700px; margin: 0 auto; font-size: 1.1rem"
+        >
+          Filtra por equipo, liga, precio o color y encuentra la equipación
+          perfecta.
+        </p>
+      </div>
+    </section>
+
+    <!-- BUSCADOR SUPERIOR -->
+    <div class="container top-search-container">
+      <div class="top-search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="¿Qué equipo o selección estás buscando?"
+          oninput="applyFilters()"
+        />
+      </div>
+    </div>
+
+    <!-- CATÁLOGO PRINCIPAL -->
+    <div class="shop-container">
+      <!-- BARRA LATERAL (FILTROS) -->
+      <aside class="shop-sidebar">
+        <div class="filter-header flex-between mb-20">
+          <h3
+            style="
+              font-weight: 900;
+              color: var(--primary-dark);
+              font-size: 1.3rem;
+            "
+          >
+            Filtros
+          </h3>
+          <span class="clear-all-filters" onclick="resetFilters()"
+            >Limpiar</span
+          >
+        </div>
+
+        <div class="filter-block" style="padding-top: 0">
+          <div class="flex-between" style="width: 100%">
+            <span
+              style="
+                font-weight: 800;
+                color: var(--primary-dark);
+                font-size: 0.9rem;
+                text-transform: uppercase;
+              "
+              >Solo en Oferta</span
+            >
+            <label class="switch">
+              <input
+                type="checkbox"
+                id="sale-toggle"
+                onchange="applyFilters()"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-toggle" onclick="toggleAccordion(this)">
+            <span>Ordenar por</span>
+            <i class="fa-solid fa-chevron-up transition-icon"></i>
+          </div>
+          <div class="filter-content open">
+            <select
+              id="sort-select"
+              class="modern-select mt-10"
+              onchange="applyFilters()"
+            >
+              <option value="default">Recomendados</option>
+              <option value="asc">Precio: Menor a Mayor</option>
+              <option value="desc">Precio: Mayor a Menor</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <div class="filter-toggle" onclick="toggleAccordion(this)">
+            <span>Precio Máximo</span>
+            <i class="fa-solid fa-chevron-up transition-icon"></i>
+          </div>
+          <div class="filter-content open">
+            <div class="flex-between mt-10 mb-10">
+              <span style="color: var(--text-muted); font-size: 0.85rem"
+                >Hasta</span
+              >
+              <span
+                id="price-val"
+                style="
+                  color: var(--primary);
+                  font-weight: 800;
+                  font-size: 1.1rem;
+                "
+                >150€</span
+              >
+            </div>
+            <input
+              type="range"
+              id="price-range"
+              class="premium-slider"
+              min="30"
+              max="150"
+              value="150"
+              step="5"
+              oninput="
+                document.getElementById('price-val').innerText =
+                  this.value + getCurrencySymbol();
+                applyFilters();
+              "
+            />
+          </div>
+        </div>
+
+        <div
+          class="filter-block"
+          style="border-bottom: none; padding-bottom: 0"
+        >
+          <div class="filter-toggle" onclick="toggleAccordion(this)">
+            <span>Competición</span>
+            <i class="fa-solid fa-chevron-up transition-icon"></i>
+          </div>
+          <div class="filter-content open" id="league-checkboxes"></div>
+        </div>
+      </aside>
+
+      <!-- LISTA DE PRODUCTOS -->
+      <main class="shop-products">
+        <div class="products-header">
+          <span id="results-count" class="results-text"
+            >Cargando catálogo...</span
+          >
+          <div id="active-filters-container" class="active-filters"></div>
+        </div>
+
+        <div class="grid-shop-3col" id="product-grid"></div>
+
+        <div id="no-results" class="no-results-box" style="display: none">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <h3 id="no-results-title">No hay resultados</h3>
+          <p id="no-results-desc">
+            Prueba a quitar algunos filtros o cambiar el texto de búsqueda.
+          </p>
+          <button class="btn btn-primary" onclick="resetFilters()">
+            Limpiar Filtros
+          </button>
+        </div>
+
+        <div id="pagination-controls" class="pagination"></div>
+      </main>
+    </div>
+
+    <!-- MODAL VISTA RÁPIDA -->
+    <div id="qv-modal" class="qv-overlay" onclick="closeQV(event)">
+      <div class="qv-card" onclick="event.stopPropagation()">
+        <button class="qv-close" onclick="closeQV(event)">&times;</button>
+        <div class="qv-content">
+          <div class="qv-left">
+            <img
+              id="qv-img"
+              src="https://placehold.co/600x600/F1F5F9/153B6B?text=Camiseta"
+              alt="Camiseta ampliada"
+            />
+          </div>
+          <div class="qv-right">
+            <h2
+              id="qv-name"
+              style="
+                color: var(--primary-dark);
+                font-size: 2rem;
+                margin-bottom: 5px;
+                font-weight: 900;
+                letter-spacing: -0.5px;
+              "
+            ></h2>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 0.95rem;
+                margin-bottom: 20px;
+                font-weight: 500;
+              "
+            >
+              Camiseta Oficial Temporada 2025
+            </p>
+            <div
+              id="qv-price"
+              class="bold"
+              style="
+                font-size: 2.2rem;
+                color: var(--primary);
+                margin-bottom: 30px;
+              "
+            ></div>
+
+            <div class="qv-sizes">
+              <div class="flex-between mb-10">
+                <span
+                  class="bold"
+                  style="font-size: 0.85rem; text-transform: uppercase"
+                  >Selecciona tu talla</span
+                >
+                <span
+                  id="qv-size-error"
+                  style="
+                    color: var(--error);
+                    font-size: 0.85rem;
+                    display: none;
+                    font-weight: 700;
+                  "
+                  ><i class="fa-solid fa-circle-exclamation"></i> ¡Elige una
+                  talla!</span
+                >
+              </div>
+              <div class="size-selector">
+                <button class="size-btn" onclick="selectSize(this, 'S')">
+                  S
+                </button>
+                <button class="size-btn" onclick="selectSize(this, 'M')">
+                  M
+                </button>
+                <button class="size-btn" onclick="selectSize(this, 'L')">
+                  L
+                </button>
+                <button class="size-btn" onclick="selectSize(this, 'XL')">
+                  XL
+                </button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-bottom: 35px">
+              <button
+                id="qv-add-cart"
+                class="btn btn-primary"
+                style="flex: 1; font-size: 1.1rem; padding: 16px"
+              >
+                <i class="fa-solid fa-cart-shopping"></i> Añadir a la cesta
+              </button>
+              <button
+                id="qv-add-fav"
+                class="btn btn-outline"
+                style="
+                  width: 60px;
+                  padding: 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 1.3rem;
+                "
+              >
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+
+            <div class="qv-recommended">
+              <span
+                class="bold"
+                style="
+                  font-size: 0.85rem;
+                  display: block;
+                  margin-bottom: 15px;
+                  text-transform: uppercase;
+                "
+                >También te puede interesar</span
+              >
+              <div id="qv-rec-container" class="qv-rec-grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Subastas</a>
+          <a href="random.html">Random</a>
+          <a href="perfil.html">Mi cuenta</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Catálogo</h4>
+          <a href="shop.html">Ver todo</a>
+          <a href="shop.html?sale=1">Ofertas</a>
+          <a href="shop.html?sort=asc">Precio: menor a mayor</a>
+          <a href="shop.html?sort=desc">Precio: mayor a menor</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ligas</h4>
+          <a href="shop.html?league=La%20Liga">La Liga</a>
+          <a href="shop.html?league=Premier%20League">Premier League</a>
+          <a href="shop.html?league=Serie%20A">Serie A</a>
+          <a href="shop.html?league=Bundesliga">Bundesliga</a>
+          <a href="shop.html?league=Ligue%201">Ligue 1</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ayuda</h4>
+          <a href="ayuda.html#envios">Envíos</a>
+          <a href="ayuda.html#devoluciones">Devoluciones</a>
+          <a href="ayuda.html#tallas">Guía de Tallas</a>
+          <a href="ayuda.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal.html#aviso-legal">Aviso Legal</a>
+          <a href="legal.html#privacidad">Privacidad</a>
+          <a href="legal.html#cookies">Cookies</a>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:perfectshirt@gmail.com">perfectshirt@gmail.com</a>
+            <a href="tel:+34681084232">(+34) 681 084 232</a>
+            <span class="footer-address"
+              >C/ Ventallat, 14, 4º 409, 08012 Barcelona</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="text-center"
+        style="font-size: 0.8rem; color: var(--text-muted); margin-top: 40px"
+      >
+        © 2025 PerfecT-shirt. Todos los derechos reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="../js/api.js"></script>
+    <script src="../js/datos_locales.js"></script>
+    <script src="../js/currency.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/shop.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/darkmode.js"></script>
+  </body>
+  <!-- PANTALLA DE CARGA -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">perfecT-<span>shirt</span></div>
+  </div>
+</html>

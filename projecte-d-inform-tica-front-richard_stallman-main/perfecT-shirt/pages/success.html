@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pedido Completado | perfecT-shirt</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+      <div class="container flex-between h-100">
+        <a href="../index.html" class="logo-text">perfecT-<span>shirt</span></a>
+        <nav class="nav-links">
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Pujas</a>
+          <a href="random.html">Random</a>
+          <a href="product.html">Personalizar</a>
+        </nav>
+        <div class="header-actions">
+          <div class="icon-btn" onclick="toggleSidebar('notif-modal')">
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="badge"
+              style="display: none; background: #e74c3c"
+              >0</span
+            >
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+            <i class="fa-regular fa-heart"></i>
+            <span id="fav-count" class="badge">0</span>
+          </div>
+
+          <div
+            class="icon-btn disabled-action"
+            onclick="toggleSidebar('cart-modal')"
+          >
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="badge">0</span>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="toggleLogin()">
+            Login
+          </button>
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ?
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div style="border-top: 1px solid #ccc; padding-top: 20px">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <a href="./pago.html" class="btn btn-primary btn-full">Pagar Ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="success-page">
+      <!-- HERO -->
+      <div class="success-hero">
+        <div class="checkmark-wrapper">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h1 class="success-title"><span>¡Pedido Completado!</span></h1>
+        <p class="success-subtitle">
+          Tu pedido ha sido procesado con éxito. Recibirás una confirmación por
+          email en breve.
+        </p>
+      </div>
+
+      <!-- META PILLS -->
+      <div class="order-meta">
+        <div class="meta-pill">
+          <i class="fa-solid fa-hashtag"></i
+          ><span id="order-number">Pedido #000000</span>
+        </div>
+        <div class="meta-pill">
+          <i class="fa-solid fa-calendar-check"></i
+          ><span id="order-date">—</span>
+        </div>
+        <div class="meta-pill">
+          <i class="fa-solid fa-truck"></i><span id="order-delivery">—</span>
+        </div>
+      </div>
+
+      <!-- PRODUCTOS -->
+      <div class="s-card">
+        <div class="s-card-title">
+          <i class="fa-solid fa-shirt"></i> Artículos del pedido
+        </div>
+        <div id="product-list"></div>
+      </div>
+
+      <!-- TOTALES -->
+      <div class="s-card">
+        <div class="s-card-title">
+          <i class="fa-solid fa-receipt"></i> Resumen de costes
+        </div>
+        <div class="total-row">
+          <span>Subtotal</span><span id="res-subtotal">—</span>
+        </div>
+        <div class="total-row">
+          <span>Envío</span>
+          <span
+            ><span id="res-shipping">—</span
+            ><span class="badge-envio" id="res-shipping-label"
+              ><i class="fa-solid fa-box"></i> Estándar</span
+            ></span
+          >
+        </div>
+        <div class="total-row grand">
+          <span><strong>Total pagado</strong></span
+          ><span id="res-total">—</span>
+        </div>
+      </div>
+
+      <!-- ENTREGA -->
+      <div class="s-card">
+        <div class="s-card-title">
+          <i class="fa-solid fa-location-dot"></i> Datos de entrega
+        </div>
+        <div class="delivery-grid">
+          <div class="delivery-item">
+            <label>Destinatario</label>
+            <p id="del-nombre">—</p>
+          </div>
+          <div class="delivery-item">
+            <label>Ciudad</label>
+            <p id="del-ciudad">—</p>
+          </div>
+          <div class="delivery-item">
+            <label>Dirección</label>
+            <p id="del-direccion">—</p>
+          </div>
+          <div class="delivery-item">
+            <label>Código Postal</label>
+            <p id="del-cp">—</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCIONES -->
+      <div class="actions-row">
+        <a href="shop.html" class="btn btn-outline"
+          ><i class="fa-solid fa-arrow-left"></i> Seguir comprando</a
+        >
+        <button
+          onclick="
+            localStorage.removeItem('cart');
+            localStorage.removeItem('last_order');
+            if (typeof updateCounts === 'function') updateCounts();
+            window.location.href = '../index.html';
+          "
+          class="btn btn-primary"
+          style="cursor: pointer"
+        >
+          <i class="fa-solid fa-house"></i> Ir al inicio
+        </button>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Subastas</a>
+          <a href="random.html">Random</a>
+          <a href="perfil.html">Mi cuenta</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Catálogo</h4>
+          <a href="shop.html">Ver todo</a>
+          <a href="shop.html?sale=1">Ofertas</a>
+          <a href="shop.html?sort=asc">Precio: menor a mayor</a>
+          <a href="shop.html?sort=desc">Precio: mayor a menor</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ligas</h4>
+          <a href="shop.html?league=La%20Liga">La Liga</a>
+          <a href="shop.html?league=Premier%20League">Premier League</a>
+          <a href="shop.html?league=Serie%20A">Serie A</a>
+          <a href="shop.html?league=Bundesliga">Bundesliga</a>
+          <a href="shop.html?league=Ligue%201">Ligue 1</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ayuda</h4>
+          <a href="ayuda.html#envios">Envíos</a>
+          <a href="ayuda.html#devoluciones">Devoluciones</a>
+          <a href="ayuda.html#tallas">Gu�a de Tallas</a>
+          <a href="ayuda.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal.html#aviso-legal">Aviso Legal</a>
+          <a href="legal.html#privacidad">Privacidad</a>
+          <a href="legal.html#cookies">Cookies</a>
+        </div>
+        <div class="footer-col">
+          <h4>S�guenos</h4>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:perfectshirt@gmail.com">perfectshirt@gmail.com</a>
+            <a href="tel:+34681084232">(+34) 681 084 232</a>
+            <span class="footer-address"
+              >C/ Ventallat, 14, 4� 409, 08012 Barcelona</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="text-center"
+        style="font-size: 0.8rem; color: var(--text-muted); margin-top: 40px"
+      >
+        � 2025 PerfecT-shirt. Todos los derechos reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const orderData = JSON.parse(localStorage.getItem("last_order")) || {};
+
+      // — N�mero, fecha y entrega —
+      const orderNum =
+        orderData.number || Math.floor(100000 + Math.random() * 900000);
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+
+      const shipping = orderData.shipping || 1.95;
+      const isExpress = shipping >= 3;
+      const days = isExpress ? 1 : Math.floor(3 + Math.random() * 3);
+      const delivDate = new Date(now);
+      delivDate.setDate(delivDate.getDate() + days);
+      const delivStr = delivDate.toLocaleDateString("es-ES", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+      });
+
+      document.getElementById("order-number").textContent =
+        `Pedido #${orderNum}`;
+      document.getElementById("order-date").textContent = dateStr;
+      document.getElementById("order-delivery").textContent =
+        `Entrega est. el ${delivStr}`;
+
+      const list = document.getElementById("product-list");
+      if (cart.length === 0) {
+        list.innerHTML =
+          '<p style="color:var(--text-muted);font-size:0.9rem;padding:10px 0;">No hay productos en este pedido.</p>';
+      } else {
+        cart.forEach((item) => {
+          const price = parseFloat(String(item.price).replace(",", ".")) || 0;
+          list.innerHTML += `
+                    <div class="product-item">
+                        <img class="product-img" src="${item.img || "https://placehold.co/60"}" alt="${item.name}">
+                        <div style="flex:1;min-width:0;">
+                            <div class="product-name">${item.name}</div>
+                            <div class="product-meta">Camiseta oficial</div>
+                        </div>
+                        <div class="product-price">${price.toFixed(2).replace(".", ",")} €</div>
+                    </div>`;
+        });
+      }
+
+      const subtotal = cart.reduce(
+        (acc, item) =>
+          acc + (parseFloat(String(item.price).replace(",", ".")) || 0),
+        0,
+      );
+      const total = subtotal + shipping;
+
+      document.getElementById("res-subtotal").textContent =
+        subtotal.toFixed(2).replace(".", ",") + " €";
+      document.getElementById("res-shipping").textContent =
+        shipping.toFixed(2).replace(".", ",") + " €";
+      document.getElementById("res-shipping-label").innerHTML = isExpress
+        ? '<i class="fa-solid fa-bolt"></i> Express'
+        : '<i class="fa-solid fa-box"></i> Estándar';
+      document.getElementById("res-total").textContent =
+        total.toFixed(2).replace(".", ",") + " €";
+
+      document.getElementById("del-nombre").textContent =
+        orderData.nombre || "—";
+      document.getElementById("del-direccion").textContent =
+        orderData.direccion || "—";
+      document.getElementById("del-ciudad").textContent =
+        orderData.ciudad || "—";
+      document.getElementById("del-cp").textContent = orderData.cp || "—";
+
+      const colors = ["#10B981", "#153B6B", "#1F5FA8", "#fbbf24", "#f87171"];
+      for (let i = 0; i < 55; i++) {
+        const el = document.createElement("div");
+        el.className = "confetti-piece";
+        el.style.cssText = `
+                left:${Math.random() * 100}vw;
+                background:${colors[Math.floor(Math.random() * colors.length)]};
+                width:${4 + Math.random() * 7}px; height:${4 + Math.random() * 7}px;
+                border-radius:${Math.random() > 0.5 ? "50%" : "3px"};
+                animation-duration:${2 + Math.random() * 3}s;
+                animation-delay:${Math.random() * 1.2}s;
+            `;
+        document.body.appendChild(el);
+        el.addEventListener("animationend", () => el.remove());
+      }
+    </script>
+    <script src="../js/success.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/components-loader.js"></script>
+    <script src="../js/darkmode.js"></script>
+  </body>
+</html>

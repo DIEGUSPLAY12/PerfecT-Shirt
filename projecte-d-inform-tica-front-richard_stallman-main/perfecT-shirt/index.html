@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PerfecT-shirt | Home</title>
+    <link rel="icon" type="image/png" href="img/12345.png" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+      <div class="container flex-between h-100">
+        <a href="index.html" class="logo-text">perfecT-<span>shirt</span></a>
+        <nav class="nav-links">
+          <a href="pages/shop.html">Catálogo</a>
+          <a href="pages/auction.html">Pujas</a>
+          <a href="pages/random.html">Random</a>
+          <a href="pages/product.html">Personalizar</a>
+        </nav>
+        <div class="header-actions">
+          <div class="icon-btn" onclick="toggleSidebar('notif-modal')">
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="badge"
+              style="display: none; background: #e74c3c"
+              >0</span
+            >
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+            <i class="fa-regular fa-heart"></i>
+            <span id="fav-count" class="badge">0</span>
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('cart-modal')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="badge">0</span>
+          </div>
+          <div class="currency-selector">
+            <select id="currency-select" onchange="setCurrency(this.value)">
+              <option value="EUR">EUR (€)</option>
+              <option value="USD">USD ($)</option>
+            </select>
+          </div>
+          <div class="gtranslate_wrapper" style="margin-left: 5px"></div>
+          <script>
+            window.gtranslateSettings = {
+              default_language: "es",
+              languages: ["es", "en", "fr", "pt"],
+              wrapper_selector: ".gtranslate_wrapper",
+              switcher_horizontal_position: "right",
+              switcher_vertical_position: "top",
+            };
+          </script>
+          <script
+            src="https://cdn.gtranslate.net/widgets/latest/dropdown.js"
+            defer
+          ></script>
+          <button class="btn btn-primary btn-sm" onclick="toggleLogin()">
+            Login
+          </button>
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ☾
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div style="border-top: 1px solid #ccc; padding-top: 20px">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <a href="./pages/pago.html" class="btn btn-primary btn-full"
+            >Pagar Ahora</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" style="padding-bottom: 120px">
+      <div class="hero-content" style="width: 100%; text-align: center">
+        <h1 class="hero-title">DESCUBRE TU CAMISETA PERFECTA</h1>
+        <p
+          class="hero-description"
+          style="max-width: 100%; margin: 0 auto 10px auto"
+        >
+          Las equipaciones más exclusivas, cajas sorpresa y diseños
+          personalizados.<br />Todo en un solo lugar.
+        </p>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <div class="container services-grid mt-40">
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="fa-solid fa-gavel"></i>
+        </div>
+        <h3>PUJAS EXCLUSIVAS</h3>
+        <p>Consigue camisetas únicas y de edición limitada al mejor precio.</p>
+        <a href="pages/auction.html" class="btn btn-outline btn-full"
+          >Ver Pujas</a
+        >
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="fa-solid fa-box-open"></i>
+        </div>
+        <h3>RANDOM BOX</h3>
+        <p>La emoción del unboxing. Camisetas oficiales garantizadas.</p>
+        <a href="pages/random.html" class="btn btn-outline btn-full"
+          >Jugar Ahora</a
+        >
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="fa-solid fa-pen-ruler"></i>
+        </div>
+        <h3>CREA TU CAMISETA</h3>
+        <p>
+          Diseña tu propio estilo. Añade tu nombre, dorsal y parches oficiales.
+        </p>
+        <a href="pages/product.html" class="btn btn-outline btn-full"
+          >Diseñar</a
+        >
+      </div>
+    </div>
+
+    <!-- TOP VENTAS -->
+    <div class="container mt-40 top-sales-section">
+      <div class="section-header">
+        <h2>Top Ventas</h2>
+        <a href="pages/shop.html" class="view-all-link"
+          >Ver todo <i class="fa-solid fa-arrow-right"></i
+        ></a>
+      </div>
+      <div class="grid-4" id="top-sales-grid">
+        <p class="text-center w-100" style="color: #888">Cargando ofertas...</p>
+      </div>
+    </div>
+
+    <!-- NOTICIAS -->
+    <div class="container mt-40 news-section" style="margin-bottom: 80px">
+      <div class="section-header">
+        <h2>Última Hora</h2>
+      </div>
+      <div
+        id="news-grid"
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 30px;
+        "
+      >
+        <p class="text-center w-100" style="color: #888">
+          Cargando la actualidad del fútbol...
+        </p>
+      </div>
+    </div>
+
+    <!-- VALORACIONES -->
+    <div class="container mt-40 reviews-section" style="margin-bottom: 80px">
+      <div class="section-header">
+        <h2>Lo que dicen nuestros clientes</h2>
+      </div>
+
+      <div
+        style="
+          background: white;
+          border-radius: 20px;
+          padding: 40px;
+          box-shadow: var(--shadow-sm);
+        "
+      >
+        <div
+          id="reviews-summary"
+          style="
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+          "
+        ></div>
+
+        <div
+          id="reviews-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+          "
+        ></div>
+      </div>
+    </div>
+
+    <!-- MODAL DE VALORACIÓN -->
+    <div
+      id="review-modal"
+      class="sidebar-overlay"
+      style="
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 4000;
+        transition: opacity 0.3s ease;
+      "
+    >
+      <div
+        style="
+          background: white;
+          width: 90%;
+          max-width: 500px;
+          border-radius: 20px;
+          padding: 40px;
+          position: relative;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        "
+      >
+        <i
+          class="fa-solid fa-xmark close-btn"
+          onclick="closeReviewModal()"
+          style="
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+          "
+        ></i>
+
+        <h3
+          style="
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 800;
+          "
+        >
+          Deja tu valoración
+        </h3>
+
+        <div style="text-align: center; margin-bottom: 30px">
+          <p
+            style="
+              color: var(--text-muted);
+              margin-bottom: 10px;
+              font-size: 0.9rem;
+            "
+          >
+            ¿Cuántas estrellas nos das?
+          </p>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+              font-size: 2rem;
+              cursor: pointer;
+            "
+          >
+            <i
+              class="fa-regular fa-star review-star-select"
+              data-value="1"
+              style="color: #ccc; transition: all 0.2s"
+            ></i>
+            <i
+              class="fa-regular fa-star review-star-select"
+              data-value="2"
+              style="color: #ccc; transition: all 0.2s"
+            ></i>
+            <i
+              class="fa-regular fa-star review-star-select"
+              data-value="3"
+              style="color: #ccc; transition: all 0.2s"
+            ></i>
+            <i
+              class="fa-regular fa-star review-star-select"
+              data-value="4"
+              style="color: #ccc; transition: all 0.2s"
+            ></i>
+            <i
+              class="fa-regular fa-star review-star-select"
+              data-value="5"
+              style="color: #ccc; transition: all 0.2s"
+            ></i>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px">
+          <label
+            style="
+              display: block;
+              font-weight: bold;
+              color: var(--primary-dark);
+              margin-bottom: 10px;
+              font-size: 0.9rem;
+            "
+            >Tu comentario:</label
+          >
+          <textarea
+            id="review-comment"
+            rows="4"
+            style="
+              width: 100%;
+              padding: 15px;
+              border: 2px solid #eee;
+              border-radius: 12px;
+              font-family: var(--font);
+              resize: vertical;
+              outline: none;
+              transition: border-color 0.3s;
+            "
+            placeholder="Cuéntanos tu experiencia..."
+          ></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-full" onclick="submitReview()">
+          Enviar Valoración
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL VISTA RÁPIDA -->
+    <div
+      id="qv-modal"
+      class="sidebar-overlay"
+      style="
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+      "
+    >
+      <div
+        style="
+          background: white;
+          width: 90%;
+          max-width: 850px;
+          border-radius: 20px;
+          display: flex;
+          flex-wrap: wrap;
+          overflow: hidden;
+          position: relative;
+          max-height: 90vh;
+        "
+      >
+        <i
+          class="fa-solid fa-xmark close-btn"
+          onclick="closeQV(event)"
+          style="
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            z-index: 10;
+            cursor: pointer;
+          "
+        ></i>
+
+        <div
+          style="
+            flex: 1;
+            min-width: 300px;
+            background: #f8fafc;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <img
+            id="qv-img"
+            src="https://placehold.co/600x600/F1F5F9/153B6B?text=Producto"
+            alt="Producto"
+            style="
+              max-height: 350px;
+              object-fit: contain;
+              filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+            "
+          />
+        </div>
+
+        <div style="flex: 1; min-width: 300px; padding: 40px; overflow-y: auto">
+          <h2
+            id="qv-name"
+            style="
+              font-size: 1.8rem;
+              color: var(--primary-dark);
+              margin-bottom: 10px;
+              font-weight: 800;
+            "
+          >
+            Nombre Camiseta
+          </h2>
+          <p
+            id="qv-price"
+            class="price"
+            style="
+              font-size: 1.5rem;
+              color: var(--primary);
+              font-weight: bold;
+              margin-bottom: 20px;
+            "
+          >
+            0.00 €
+          </p>
+
+          <div style="margin-bottom: 25px">
+            <p style="font-weight: bold; margin-bottom: 10px">
+              Selecciona tu Talla:
+              <span
+                id="qv-size-error"
+                style="color: red; font-size: 0.8rem; display: none"
+                >¡Debes elegir una talla primero!</span
+              >
+            </p>
+            <div style="display: flex; gap: 10px">
+              <button class="size-btn" onclick="selectSize(this, 'S')">
+                S
+              </button>
+              <button class="size-btn" onclick="selectSize(this, 'M')">
+                M
+              </button>
+              <button class="size-btn" onclick="selectSize(this, 'L')">
+                L
+              </button>
+              <button class="size-btn" onclick="selectSize(this, 'XL')">
+                XL
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 15px; margin-bottom: 30px">
+            <button
+              id="qv-add-cart"
+              class="btn btn-primary"
+              style="flex: 1; font-size: 1.1rem"
+            >
+              Añadir al Carrito
+            </button>
+            <button
+              id="qv-add-fav"
+              class="btn btn-outline"
+              style="
+                width: 50px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+              "
+            >
+              <i class="fa-solid fa-heart"></i>
+            </button>
+          </div>
+
+          <div style="border-top: 1px solid #eee; padding-top: 20px">
+            <p
+              style="font-weight: bold; font-size: 0.9rem; margin-bottom: 15px"
+            >
+              También te puede interesar:
+            </p>
+            <div
+              id="qv-rec-container"
+              style="
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+              "
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="index.html">Inicio</a>
+          <a href="pages/shop.html">Catálogo</a>
+          <a href="pages/auction.html">Subastas</a>
+          <a href="pages/random.html">Random</a>
+          <a href="pages/perfil.html">Mi cuenta</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Catálogo</h4>
+          <a href="pages/shop.html">Ver todo</a>
+          <a href="pages/shop.html?sale=1">Ofertas</a>
+          <a href="pages/shop.html?sort=asc">Precio: menor a mayor</a>
+          <a href="pages/shop.html?sort=desc">Precio: mayor a menor</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ligas</h4>
+          <a href="pages/shop.html?league=La%20Liga">La Liga</a>
+          <a href="pages/shop.html?league=Premier%20League">Premier League</a>
+          <a href="pages/shop.html?league=Serie%20A">Serie A</a>
+          <a href="pages/shop.html?league=Bundesliga">Bundesliga</a>
+          <a href="pages/shop.html?league=Ligue%201">Ligue 1</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ayuda</h4>
+          <a href="pages/ayuda.html#envios">Envíos</a>
+          <a href="pages/ayuda.html#devoluciones">Devoluciones</a>
+          <a href="pages/ayuda.html#tallas">Guía de Tallas</a>
+          <a href="pages/ayuda.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="pages/legal.html#aviso-legal">Aviso Legal</a>
+          <a href="pages/legal.html#privacidad">Privacidad</a>
+          <a href="pages/legal.html#cookies">Cookies</a>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:perfectshirt@gmail.com">perfectshirt@gmail.com</a>
+            <a href="tel:+34681084232">(+34) 681 084 232</a>
+            <span class="footer-address"
+              >C/ Ventallat, 14, 4º 409, 08012 Barcelona</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="text-center"
+        style="font-size: 0.8rem; color: var(--text-muted); margin-top: 40px"
+      >
+        © 2025 PerfecT-shirt. Todos los derechos reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/currency.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/datos_locales.js"></script>
+    <script src="js/reviews.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/responsive.js"></script>
+    <script src="js/darkmode.js"></script>
+  </body>
+  <!-- PANTALLA DE CARGA -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">perfecT-<span>shirt</span></div>
+  </div>
+</html>

@@ -1,0 +1,428 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ayuda y Soporte | PerfecT-shirt</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+      <div class="container flex-between h-100">
+        <a href="../index.html" class="logo-text">perfecT-<span>shirt</span></a>
+        <nav class="nav-links">
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Pujas</a>
+          <a href="random.html">Random</a>
+          <a href="product.html">Personalizar</a>
+        </nav>
+        <div class="header-actions">
+          <div class="icon-btn" onclick="toggleSidebar('notif-modal')">
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="badge"
+              style="display: none; background: #e74c3c"
+              >0</span
+            >
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+            <i class="fa-regular fa-heart"></i>
+            <span id="fav-count" class="badge">0</span>
+          </div>
+
+          <div class="icon-btn" onclick="toggleSidebar('cart-modal')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="badge">0</span>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="toggleLogin()">
+            Login
+          </button>
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ☾
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div style="border-top: 1px solid #ccc; padding-top: 20px">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <a href="./pago.html" class="btn btn-primary btn-full">Pagar Ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL: AYUDA -->
+    <main class="container mt-40">
+      <div class="legal-layout">
+        <aside class="legal-sidebar">
+          <nav class="legal-nav">
+            <a href="#envios" class="legal-link active">Envíos</a>
+            <a href="#Devoluciones" class="legal-link">Devoluciones</a>
+            <a href="#tallas" class="legal-link">Guía de Tallas</a>
+            <a href="#contacto" class="legal-link">Contacto</a>
+          </nav>
+        </aside>
+        <section class="legal-content">
+          <!--Apartat Article Envios-->
+          <article id="envios" class="legal-section">
+            <h1>Política de Envío</h1>
+
+            <h3>Tiempos de Procesamiento</h3>
+            <p>
+              Cada una de nuestras camisetas se fabrica bajo demanda para evitar
+              el desperdicio textil. Por ello, requerimos de un periodo de
+              <strong>3 a 5 días hábiles</strong> para la impresión y control de
+              calidad antes del despacho. Los pedidos realizados en fin de
+              semana comenzarán su proceso el lunes siguiente.
+            </p>
+
+            <h3>Logística Internacional (Desde China)</h3>
+            <p>
+              Operamos con centros de producción en Asia para ofrecerte la
+              última tecnología en impresión digital. Aunque el viaje es largo,
+              garantizamos que la espera vale la pena por la calidad del
+              acabado.
+            </p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Método de Envío</th>
+                  <th>Tiempo Estimado</th>
+                  <th>Costo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Económico</strong> (Seguimiento parcial)</td>
+                  <td>15 - 20 días hábiles</td>
+                  <td>2.95€</td>
+                </tr>
+                <tr>
+                  <td><strong>Estándar</strong> (Seguimiento total)</td>
+                  <td>10 - 15 días hábiles</td>
+                  <td>4.95€ (Gratis &gt; 50€)</td>
+                </tr>
+                <tr>
+                  <td><strong>Priority Air</strong> (Express)</td>
+                  <td>7 - 10 días hábiles</td>
+                  <td>12.50€</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3 class="mt-20">Seguimiento y Aduanas</h3>
+            <p>
+              Recibirás un código de seguimiento en tu email en cuanto el
+              paquete salga de fábrica. Ten en cuenta que, al ser un envío
+              internacional, pueden existir retenciones aleatorias en aduanas
+              que no dependen de nosotros. Cualquier tasa de importación corre a
+              cargo del cliente, aunque debido al bajo valor de las camisetas,
+              esto sucede en menos del 1% de los casos.
+            </p>
+          </article>
+
+          <!--Apartat Article Devoluciones-->
+          <article id="Devoluciones" class="legal-section">
+            <h1>Política de Devoluciones</h1>
+
+            <h3>Productos Estándar</h3>
+            <p>
+              Si has comprado un Diseño de nuestro catálogo sin personalización
+              adicional, dispones de
+              <strong>14 días naturales</strong> desde la recepción para
+              solicitar un cambio o devolución, siempre que la prenda no haya
+              sido usada ni lavada.
+            </p>
+
+            <h3>Productos Personalizados (Excepción Legal)</h3>
+            <p>
+              De acuerdo con la Ley de Consumidores, el derecho de desistimiento
+              <strong>no es aplicable</strong> a bienes confeccionados conforme
+              a las especificaciones del consumidor o claramente personalizados.
+              Esto incluye:
+            </p>
+            <ul>
+              <li>Camisetas con nombres o números específicos.</li>
+              <li>Diseños subidos por el propio usuario.</li>
+              <li>
+                Combinaciones de colores únicas elegidas en el configurador.
+              </li>
+            </ul>
+
+            <h3>¿Qué pasa si llega defectuosa?</h3>
+            <p>
+              Si la impresión es incorrecta, la talla no coincide con lo pedido
+              o la prenda tiene taras,
+              <strong>asumimos el 100% del coste</strong>. Te enviaremos una
+              unidad nueva sin coste adicional tras verificar el error mediante
+              una fotografía enviada a nuestro soporte.
+            </p>
+          </article>
+
+          <article id="tallas" class="legal-section">
+            <h1>Guía de Tallas</h1>
+            <p>
+              Nuestras tallas siguen el estándar europeo, pero recomendamos
+              revisar las medidas para evitar errores, especialmente en
+              productos personalizados que no permiten devolución.
+            </p>
+
+            <div class="size-chart-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Talla</th>
+                    <th>Ancho (Pecho)</th>
+                    <th>Largo (Altura)</th>
+                    <th>Recomendación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>S</strong></td>
+                    <td>48 cm</td>
+                    <td>69 cm</td>
+                    <td>1.70m / Slim fit</td>
+                  </tr>
+                  <tr>
+                    <td><strong>M</strong></td>
+                    <td>50 cm</td>
+                    <td>71 cm</td>
+                    <td>1.70m - 1.75m</td>
+                  </tr>
+                  <tr>
+                    <td><strong>L</strong></td>
+                    <td>54 cm</td>
+                    <td>73 cm</td>
+                    <td>1.75m - 1.85m</td>
+                  </tr>
+                  <tr>
+                    <td><strong>XL</strong></td>
+                    <td>58 cm</td>
+                    <td>75 cm</td>
+                    <td>&gt; 1.85m / Athletic</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 class="mt-20">Consejo de experto</h3>
+            <p>
+              No midas tu cuerpo directamente. Toma tu camiseta favorita,
+              extiéndela sobre una mesa y mide el ancho de axila a axila. Esa es
+              la medida más fiable para comparar con nuestra tabla.
+            </p>
+          </article>
+
+          <!--Apartat article Contacto-->
+          <article id="contacto" class="legal-section">
+            <h1>Contacto</h1>
+
+            <div class="contact-info-list mt-20">
+              <div class="contact-info-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <p>C/ Ventallat, 14, 4º 409, 08012 Barcelona.</p>
+              </div>
+              <div class="contact-info-item">
+                <i class="fa-solid fa-envelope"></i>
+                <p>perfectshirt@gmail.com</p>
+              </div>
+              <div class="contact-info-item">
+                <i class="fa-solid fa-phone"></i>
+                <p>(+34) 681 084 232</p>
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Subastas</a>
+          <a href="random.html">Random</a>
+          <a href="perfil.html">Mi cuenta</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Catálogo</h4>
+          <a href="shop.html">Ver todo</a>
+          <a href="shop.html?sale=1">Ofertas</a>
+          <a href="shop.html?sort=asc">Precio: menor a mayor</a>
+          <a href="shop.html?sort=desc">Precio: mayor a menor</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ligas</h4>
+          <a href="shop.html?league=La%20Liga">La Liga</a>
+          <a href="shop.html?league=Premier%20League">Premier League</a>
+          <a href="shop.html?league=Serie%20A">Serie A</a>
+          <a href="shop.html?league=Bundesliga">Bundesliga</a>
+          <a href="shop.html?league=Ligue%201">Ligue 1</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ayuda</h4>
+          <a href="ayuda.html#envios">Envíos</a>
+          <a href="ayuda.html#Devoluciones">Devoluciones</a>
+          <a href="ayuda.html#tallas">Guía de Tallas</a>
+          <a href="ayuda.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal.html#aviso-legal">Aviso Legal</a>
+          <a href="legal.html#privacidad">Privacidad</a>
+          <a href="legal.html#cookies">Cookies</a>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:perfectshirt@gmail.com">perfectshirt@gmail.com</a>
+            <a href="tel:+34681084232">(+34) 681 084 232</a>
+            <span class="footer-address"
+              >C/ Ventallat, 14, 4º 409, 08012 Barcelona</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="text-center"
+        style="font-size: 0.8rem; color: var(--text-muted); margin-top: 40px"
+      >
+        © 2025 PerfecT-shirt. Todos los derechos reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="../js/app.js"></script>
+    <script src="../js/datos_locales.js"></script>
+    <script src="../js/legal.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/darkmode.js"></script>
+    <script src="../js/components-loader.js"></script>
+  </body>
+  <!-- PANTALLA DE CARGA -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">perfecT-<span>shirt</span></div>
+  </div>
+</html>

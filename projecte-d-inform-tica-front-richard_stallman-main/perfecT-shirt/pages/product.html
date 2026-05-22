@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Diseñador Pro | PerfecT-shirt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../img/12345.png" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="main-header glass-header">
+        <div class="container flex-between h-100">
+            <a href="../index.html" class="logo-text">perfecT-<span>shirt</span></a>
+            <nav class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="shop.html">Catálogo</a>
+                <a href="auction.html">Pujas</a>
+                <a href="random.html">Random</a>
+                <a href="product.html" class="active">Personalizar</a>
+            </nav>
+            <div class="header-actions">
+                <div class="icon-btn" onclick="toggleSidebar('fav-modal')">
+                    <i class="fa-regular fa-heart"></i><span id="fav-count" class="badge">0</span>
+                </div>
+                <div class="icon-btn" onclick="toggleSidebar('cart-modal')" style="cursor: pointer; z-index: 1050;">
+                    <i class="fa-solid fa-cart-shopping"></i><span id="cart-count" class="badge">0</span>
+                </div>
+                <div class="currency-selector">
+                    <select id="currency-select" onchange="setCurrency(this.value)">
+                      <option value="EUR">EUR (€)</option>
+                      <option value="USD">USD ($)</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="toggleLogin()">Login</button>
+                <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            aria-label="Modo oscuro"
+            style="
+              font-size: 1.1rem;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            ☾
+          </button>
+            </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Tu Carrito</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('cart-modal')"
+          ></i>
+        </div>
+        <div id="cart-items" style="flex: 1; overflow-y: auto"></div>
+        <div class="pt-20" style="border-top: 1px solid #eee">
+          <div class="flex-between bold mb-20">
+            <span>Total</span><span id="cart-total">0.00 €</span>
+          </div>
+          <a href="pago.html" class="btn btn-primary btn-full">Pagar Ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NOTIFICACIONES -->
+    <div id="notif-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">
+            <i
+              class="fa-solid fa-bell"
+              style="color: var(--primary); margin-right: 8px"
+            ></i>
+            Notificaciones
+          </h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('notif-modal')"
+          ></i>
+        </div>
+        <div
+          id="notif-items"
+          style="flex: 1; overflow-y: auto; padding-top: 10px"
+        ></div>
+        <div
+          style="
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            text-align: center;
+          "
+        >
+          <button
+            onclick="clearNotifications()"
+            style="
+              background: none;
+              border: none;
+              color: var(--error);
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            <i class="fa-solid fa-trash"></i> Borrar todas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FAVORITOS -->
+    <div id="fav-modal" class="sidebar-overlay">
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3 class="bold">Favoritos</h3>
+          <i
+            class="fa-solid fa-xmark close-btn"
+            onclick="toggleSidebar('fav-modal')"
+          ></i>
+        </div>
+        <div id="fav-items" style="flex: 1; overflow-y: auto"></div>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section
+      class="hero-section"
+      style="
+        min-height: 45vh;
+        padding-bottom: 180px;
+        padding-top: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      "
+    >
+      <div class="hero-content">
+        <h1 class="hero-title">DISEÑADOR PRO</h1>
+        <p class="hero-description">
+          Configura cada detalle de tu equipación oficial. Calidad premium
+          garantizada.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONFIGURADOR DE PRODUCTO -->
+    <div
+      class="container"
+      style="
+        margin-top: -100px;
+        position: relative;
+        z-index: 10;
+        margin-bottom: 80px;
+      "
+    >
+      <div
+        class="customizer-layout"
+        style="
+          display: grid;
+          grid-template-columns: 1.3fr 1fr;
+          gap: 0;
+          background: white;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 40px 80px rgba(0,0,0,0.1), 0 15px 30px rgba(0,0,0,0.05);
+          min-height: 750px;
+        "
+      >
+        <!-- LEFT SIDE: 3D VIEWER -->
+        <div style="background: #f8fafc; border-right: 1px solid #eee; display: flex; flex-direction: column; position: relative;">
+          <!-- VIEW CONTROLS -->
+          <div style="position: absolute; top: 30px; left: 0; right: 0; display: flex; justify-content: center; gap: 10px; z-index: 10;">
+            <button id="btn-view-front" class="view-toggle-btn active" onclick="switchView('front')">DELANTE</button>
+            <button id="btn-view-back" class="view-toggle-btn" onclick="switchView('back')">DETRÁS</button>
+          </div>
+
+          <!-- STUDIO -->
+          <div class="preview-studio" style="background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%); position: relative; overflow: hidden; flex: 1; display: flex; align-items: center; justify-content: center; perspective: 1200px;">
+            <div class="fabric-texture" style="position: absolute; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); opacity: 0.1; pointer-events: none; z-index: 2; mix-blend-mode: multiply;"></div>
+            
+            <div id="tshirt-obj" style="width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3;">
+              
+              <!-- FRONT VIEW -->
+              <div id="wrapper-front" class="shirt-wrapper" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 512 512" style="height: 85%; width: auto; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));">
+                  <defs>
+                    <pattern id="pattern-v-front" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="25" height="40" fill="rgba(0,0,0,0.18)" /></pattern>
+                    <pattern id="pattern-h-front" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="25" fill="rgba(0,0,0,0.18)" /></pattern>
+                    <filter id="logo-glow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.3)" /></filter>
+                    <filter id="fold-blur-front" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="15" /></filter>
+                    <path id="shirt-geometry-front" d="M 186 60 Q 256 80 326 60 Q 350 65 406 85 L 486 160 Q 476 190 436 210 L 386 165 C 380 200 386 420 386 460 Q 256 470 126 460 C 126 420 132 200 126 165 L 76 210 Q 36 190 26 160 L 106 85 Q 160 65 186 60 Z" />
+                    <path id="collar-geometry-front" d="M 186 60 Q 256 85 326 60 Q 256 40 186 60 Z" />
+                    <mask id="pattern-mask-front">
+                      <path d="M 126 460 C 126 420 132 200 126 165 Q 160 150 186 60 Q 256 80 326 60 Q 350 150 386 165 C 380 200 386 420 386 460 Q 256 470 126 460 Z" fill="white" />
+                      <use href="#collar-geometry-front" fill="black" />
+                    </mask>
+                    <linearGradient id="vol-light-front" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(0,0,0,0.5)" />
+                      <stop offset="8%" stop-color="rgba(0,0,0,0.1)" />
+                      <stop offset="20%" stop-color="rgba(255,255,255,0.4)" />
+                      <stop offset="45%" stop-color="rgba(255,255,255,0.7)" />
+                      <stop offset="70%" stop-color="rgba(255,255,255,0.4)" />
+                      <stop offset="92%" stop-color="rgba(0,0,0,0.1)" />
+                      <stop offset="100%" stop-color="rgba(0,0,0,0.5)" />
+                    </linearGradient>
+                    <radialGradient id="chest-light" cx="50%" cy="35%" r="45%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0.5)" />
+                      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                    </radialGradient>
+                  </defs>
+                  
+                  <!-- Base color -->
+                  <use href="#shirt-geometry-front" class="shirt-base" fill="#ffffff" style="transition: fill 0.4s ease" />
+                  
+                  <!-- Pattern overlay (multiply helps it blend nicely on light and dark) -->
+                  <use href="#shirt-geometry-front" class="shirt-pattern-overlay" fill="transparent" mask="url(#pattern-mask-front)" style="transition: fill 0.3s ease; mix-blend-mode: multiply;" />
+                  
+                  <!-- Main Shading Volume -->
+                  <use href="#shirt-geometry-front" fill="url(#vol-light-front)" pointer-events="none" class="torso-shadow" style="mix-blend-mode: multiply; transition: opacity 0.3s ease;" />
+                  <!-- Center Highlight -->
+                  <use href="#shirt-geometry-front" fill="url(#chest-light)" pointer-events="none" class="torso-shadow" style="mix-blend-mode: screen; transition: opacity 0.3s ease;" />
+                  
+                  <!-- Sleeves shading (darken) -->
+                  <path d="M 186 60 Q 160 150 126 165 L 76 210 Q 36 190 26 160 L 106 85 Z" fill="rgba(0,0,0,0.15)" style="mix-blend-mode: multiply" pointer-events="none" />
+                  <path d="M 326 60 Q 350 150 386 165 L 436 210 Q 476 190 486 160 L 406 85 Z" fill="rgba(0,0,0,0.15)" style="mix-blend-mode: multiply" pointer-events="none" />
+                  
+                  <!-- Folds Shadow -->
+                  <path class="torso-shadow" d="M 145 160 Q 185 270 145 420" stroke="rgba(0,0,0,0.25)" stroke-width="14" fill="none" filter="url(#fold-blur-front)" style="mix-blend-mode: multiply; transition: opacity 0.3s ease;" />
+                  <path class="torso-shadow" d="M 365 160 Q 325 270 365 420" stroke="rgba(0,0,0,0.25)" stroke-width="14" fill="none" filter="url(#fold-blur-front)" style="mix-blend-mode: multiply; transition: opacity 0.3s ease;" />
+                  
+                  <!-- Folds Highlight -->
+                  <path class="torso-shadow" d="M 175 160 Q 215 270 170 420" stroke="rgba(255,255,255,0.6)" stroke-width="10" fill="none" filter="url(#fold-blur-front)" style="mix-blend-mode: screen; transition: opacity 0.3s ease;" />
+                  <path class="torso-shadow" d="M 335 160 Q 295 270 340 420" stroke="rgba(255,255,255,0.6)" stroke-width="10" fill="none" filter="url(#fold-blur-front)" style="mix-blend-mode: screen; transition: opacity 0.3s ease;" />
+
+                  <!-- Realistic Seams -->
+                  <path d="M 186 60 Q 160 150 126 165" stroke="rgba(0,0,0,0.1)" stroke-width="2" fill="none" stroke-dasharray="3 3" />
+                  <path d="M 326 60 Q 350 150 386 165" stroke="rgba(0,0,0,0.1)" stroke-width="2" fill="none" stroke-dasharray="3 3" />
+                  <path d="M 130 458 Q 256 468 382 458" stroke="rgba(0,0,0,0.1)" stroke-width="2" fill="none" stroke-dasharray="3 3" />
+                  <path d="M 106 85 L 26 160" stroke="rgba(0,0,0,0.1)" stroke-width="1.5" fill="none" stroke-dasharray="2 2" />
+                  <path d="M 406 85 L 486 160" stroke="rgba(0,0,0,0.1)" stroke-width="1.5" fill="none" stroke-dasharray="2 2" />
+
+                  <!-- Border Outline -->
+                  <use href="#shirt-geometry-front" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="2" pointer-events="none" />
+                  <path d="M 126 165 Q 160 110 186 60" stroke="rgba(0,0,0,0.08)" stroke-width="2" fill="none" />
+                  <path d="M 386 165 Q 350 110 326 60" stroke="rgba(0,0,0,0.08)" stroke-width="2" fill="none" />
+                  <use href="#collar-geometry-front" fill="rgba(0,0,0,0.08)" stroke="rgba(0,0,0,0.2)" stroke-width="2" />
+                  <use href="#collar-geometry-front" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1" transform="translate(0, 1)" />
+                  
+                  <!-- Badges and Logos -->
+                  <!-- Nike Logo on wearer's right (viewer's left) -->
+                  <image href="../img/nike-4-logo.png" x="160" y="135" width="55" height="40" class="sponsor-text" style="transition: filter 0.3s ease;" />
+
+                  <!-- Team Crest on wearer's left (viewer's right, the heart) -->
+                  <image href="../img/escudos/cami.png" x="270" y="100" width="110" height="110" filter="url(#logo-glow)" />
+                  
+                  <!-- Main Sponsor -->
+                  <g transform="translate(256, 260)">
+                    <text class="sponsor-text" font-family="'Inter', 'Arial Black', sans-serif" font-weight="900" font-style="italic" font-size="28" text-anchor="middle" fill="#1f2937" style="transition: fill 0.3s ease, filter 0.3s ease; text-shadow: 0px 1px 2px rgba(255,255,255,0.5);">PERFECT-SHIRT</text>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- BACK VIEW -->
+              <div id="wrapper-back" class="shirt-wrapper" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transform: rotateY(180deg); display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 512 512" style="height: 85%; width: auto; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));">
+                  <defs>
+                    <pattern id="pattern-v-back" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="25" height="40" fill="rgba(0,0,0,0.18)" /></pattern>
+                    <pattern id="pattern-h-back" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="25" fill="rgba(0,0,0,0.18)" /></pattern>
+                    <filter id="fold-blur-back" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="15" /></filter>
+                    <path id="shirt-geometry-back" d="M 186 60 Q 256 80 326 60 Q 350 65 406 85 L 486 160 Q 476 190 436 210 L 386 165 C 380 200 386 420 386 460 Q 256 470 126 460 C 126 420 132 200 126 165 L 76 210 Q 36 190 26 160 L 106 85 Q 160 65 186 60 Z" />
+                    <mask id="pattern-mask-back">
+                      <path d="M 126 460 C 126 420 132 200 126 165 Q 160 150 186 60 Q 256 80 326 60 Q 350 150 386 165 C 380 200 386 420 386 460 Q 256 470 126 460 Z" fill="white" />
+                    </mask>
+                    <linearGradient id="vol-light-back" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(0,0,0,0.5)" />
+                      <stop offset="8%" stop-color="rgba(0,0,0,0.1)" />
+                      <stop offset="20%" stop-color="rgba(255,255,255,0.4)" />
+                      <stop offset="45%" stop-color="rgba(255,255,255,0.7)" />
+                      <stop offset="70%" stop-color="rgba(255,255,255,0.4)" />
+                      <stop offset="92%" stop-color="rgba(0,0,0,0.1)" />
+                      <stop offset="100%" stop-color="rgba(0,0,0,0.5)" />
+                    </linearGradient>
+                    <radialGradient id="chest-light-back" cx="50%" cy="40%" r="50%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0.4)" />
+                      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                    </radialGradient>
+                  </defs>
+                  
+                  <!-- Base color -->
+                  <use href="#shirt-geometry-back" class="shirt-base" fill="#ffffff" style="transition: fill 0.4s ease" />
+                  <use href="#shirt-geometry-back" class="shirt-pattern-overlay" fill="transparent" mask="url(#pattern-mask-back)" style="transition: fill 0.3s ease; mix-blend-mode: multiply;" />
+                  
+                  <!-- Volume / Shading -->
+                  <use href="#shirt-geometry-back" fill="url(#vol-light-back)" pointer-events="none" class="torso-shadow" style="mix-blend-mode: multiply; transition: opacity 0.3s ease;" />
+                  <use href="#shirt-geometry-back" fill="url(#chest-light-back)" pointer-events="none" class="torso-shadow" style="mix-blend-mode: screen; transition: opacity 0.3s ease;" />
+                  
+                  <!-- Sleeves shading -->
+                  <path d="M 186 60 Q 160 150 126 165 L 76 210 Q 36 190 26 160 L 106 85 Z" fill="rgba(0,0,0,0.15)" style="mix-blend-mode: multiply" pointer-events="none" />
+                  <path d="M 326 60 Q 350 150 386 165 L 436 210 Q 476 190 486 160 L 406 85 Z" fill="rgba(0,0,0,0.15)" style="mix-blend-mode: multiply" pointer-events="none" />
+                  
+                  <!-- Folds Shadow -->
+                  <path class="torso-shadow" d="M 145 160 Q 185 270 145 420" stroke="rgba(0,0,0,0.25)" stroke-width="14" fill="none" filter="url(#fold-blur-back)" style="mix-blend-mode: multiply; transition: opacity 0.3s ease;" />
+                  <path class="torso-shadow" d="M 365 160 Q 325 270 365 420" stroke="rgba(0,0,0,0.25)" stroke-width="14" fill="none" filter="url(#fold-blur-back)" style="mix-blend-mode: multiply; transition: opacity 0.3s ease;" />
+                  
+                  <!-- Folds Highlight -->
+                  <path class="torso-shadow" d="M 175 160 Q 215 270 170 420" stroke="rgba(255,255,255,0.6)" stroke-width="10" fill="none" filter="url(#fold-blur-back)" style="mix-blend-mode: screen; transition: opacity 0.3s ease;" />
+                  <path class="torso-shadow" d="M 335 160 Q 295 270 340 420" stroke="rgba(255,255,255,0.6)" stroke-width="10" fill="none" filter="url(#fold-blur-back)" style="mix-blend-mode: screen; transition: opacity 0.3s ease;" />
+
+                  <!-- Realistic Seams -->
+                  <path d="M 186 60 Q 160 150 126 165" stroke="rgba(0,0,0,0.1)" stroke-width="2" fill="none" stroke-dasharray="3 3" />
+                  <path d="M 326 60 Q 350 150 386 165" stroke="rgba(0,0,0,0.1)" stroke-width="2" fill="none" stroke-dasharray="3 3" />
+                  <path d="M 130 458 Q 256 468 382 458" stroke="rgba(0,0,0,0.1)" stroke-width="2" fill="none" stroke-dasharray="3 3" />
+                  <path d="M 106 85 L 26 160" stroke="rgba(0,0,0,0.1)" stroke-width="1.5" fill="none" stroke-dasharray="2 2" />
+                  <path d="M 406 85 L 486 160" stroke="rgba(0,0,0,0.1)" stroke-width="1.5" fill="none" stroke-dasharray="2 2" />
+
+                  <!-- Border Outline -->
+                  <use href="#shirt-geometry-back" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="2" pointer-events="none" />
+                  <path d="M 126 165 Q 160 110 186 60" stroke="rgba(0,0,0,0.08)" stroke-width="2" fill="none" />
+                  <path d="M 386 165 Q 350 110 326 60" stroke="rgba(0,0,0,0.08)" stroke-width="2" fill="none" />
+
+                  <!-- DORSO (NAME & NUMBER) -->
+                  <text class="p-name" x="256" y="145" font-family="'Inter', 'Arial Black', Impact, sans-serif" font-weight="900" font-size="26" text-anchor="middle" fill="#1f2937" style="transition: fill 0.3s ease; text-transform: uppercase;">NOMBRE</text>
+                  <text class="p-number" x="256" y="335" font-family="'Inter', 'Arial Black', Impact, sans-serif" font-weight="900" font-size="160" text-anchor="middle" fill="#1f2937" style="transition: fill 0.3s ease">10</text>
+                </svg>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE: SETTINGS PANEL -->
+        <div style="padding: 40px; display: flex; flex-direction: column; gap: 30px; background: white; overflow-y: auto;">
+          <!-- 1. Color Base -->
+          <div>
+              <span class="label-pro">1. Color Base</span>
+              <div class="color-picker" style="display: flex; gap: 15px;">
+                  <div class="color-swatch-pro active" style="background: #ffffff" onclick="changeColor('#ffffff', '#1f2937', this)"></div>
+                  <div class="color-swatch-pro" style="background: #153b6b" onclick="changeColor('#153B6B', '#ffffff', this)"></div>
+                  <div class="color-swatch-pro" style="background: #1f2937" onclick="changeColor('#1F2937', '#ffffff', this)"></div>
+                  <div class="color-swatch-pro" style="background: #dc2626" onclick="changeColor('#DC2626', '#ffffff', this)"></div>
+                  <div class="color-swatch-pro" style="background: #f59e0b" onclick="changeColor('#F59E0B', '#1f2937', this)"></div>
+              </div>
+          </div>
+
+          <!-- 2. Estampado -->
+          <div>
+              <span class="label-pro">2. Estampado <span id="sum-pattern" style="float: right; color: var(--text-muted); font-size: 0.7rem; font-weight: 600;">LISO</span></span>
+              <div class="selection-grid-3">
+                  <button class="selection-card pattern-btn active" onclick="changePattern('none', 'LISO', this)">Liso</button>
+                  <button class="selection-card pattern-btn" onclick="changePattern('vertical', 'RAYAS VERT.', this)">Verticales</button>
+                  <button class="selection-card pattern-btn" onclick="changePattern('horizontal', 'RAYAS HORIZ.', this)">Horizontales</button>
+              </div>
+          </div>
+
+          <!-- 3. Identificación -->
+          <div>
+              <span class="label-pro">3. Identificación</span>
+              <div style="display: flex; gap: 15px">
+                  <input type="text" id="in-name" placeholder="NOMBRE" class="lux-input" style="flex: 2" oninput="updateText()" maxlength="12" />
+                  <input type="number" id="in-num" placeholder="10" class="lux-input" style="flex: 1" oninput="updateText()" />
+              </div>
+          </div>
+
+          <!-- 4. Parches Oficiales -->
+          <div>
+              <span class="label-pro">4. Parches Oficiales <span id="sum-patch" style="float: right; color: var(--text-muted); font-size: 0.7rem; font-weight: 600;">NINGUNO</span></span>
+              <div class="selection-grid-2">
+                  <button class="selection-card patch-btn active" onclick="selectOption('patch', 0, 'NINGUNO', this)">Sin Parche <small>Incluido</small></button>
+                  <button class="selection-card patch-btn" onclick="selectOption('patch', 10, 'CHAMPIONS', this)">Champions <small>+<span class="price-display" data-price-eur="10.00">10.00€</span></small></button>
+                  <button class="selection-card patch-btn" onclick="selectOption('patch', 8, 'LA LIGA', this)">La Liga <small>+<span class="price-display" data-price-eur="8.00">8.00€</span></small></button>
+                  <button class="selection-card patch-btn" onclick="selectOption('patch', 8, 'PREMIER', this)">Premier <small>+<span class="price-display" data-price-eur="8.00">8.00€</span></small></button>
+              </div>
+          </div>
+
+          <!-- 5. Talla -->
+          <div>
+              <span class="label-pro">5. Talla <span id="sum-size" style="float: right; color: var(--text-muted); font-size: 0.7rem; font-weight: 600;">L</span></span>
+              <div class="selection-grid-4">
+                  <button class="selection-card size-btn" onclick="selectSize('S', this)">S</button>
+                  <button class="selection-card size-btn" onclick="selectSize('M', this)">M</button>
+                  <button class="selection-card size-btn active" onclick="selectSize('L', this)">L</button>
+                  <button class="selection-card size-btn" onclick="selectSize('XL', this)">XL</button>
+              </div>
+          </div>
+
+          <div style="flex: 1;"></div>
+
+          <div class="checkout-box" style="margin-top: 20px;">
+              <div class="flex-between mb-20">
+                  <div style="display: flex; flex-direction: column;">
+                      <span class="bold uppercase" style="color: var(--text-muted); font-size: 0.75rem;">Importe Total</span>
+                      <span style="font-size: 0.7rem; color: #94a3b8;">IVA Incluido</span>
+                  </div>
+                  <span id="total-price" style="font-size: 2.5rem; font-weight: 900; color: var(--primary);">54.99 €</span>
+              </div>
+              <button class="btn btn-primary btn-full" onclick="addCustomToCart()"> <i class="fa-solid fa-cart-plus"></i> AÑADIR AL CARRITO </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="../index.html">Inicio</a>
+          <a href="shop.html">Catálogo</a>
+          <a href="auction.html">Subastas</a>
+          <a href="random.html">Random</a>
+          <a href="perfil.html">Mi cuenta</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Catálogo</h4>
+          <a href="shop.html">Ver todo</a>
+          <a href="shop.html?sale=1">Ofertas</a>
+          <a href="shop.html?sort=asc">Precio: menor a mayor</a>
+          <a href="shop.html?sort=desc">Precio: mayor a menor</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Ligas</h4>
+          <a href="shop.html?league=La%20Liga">La Liga</a>
+          <a href="shop.html?league=Premier%20League">Premier League</a>
+          <a href="shop.html?league=Serie%20A">Serie A</a>
+          <a href="shop.html?league=Bundesliga">Bundesliga</a>
+          <a href="shop.html?league=Ligue%201">Ligue 1</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ayuda</h4>
+          <a href="ayuda.html#envios">Envíos</a>
+          <a href="ayuda.html#devoluciones">Devoluciones</a>
+          <a href="ayuda.html#tallas">Guía de Tallas</a>
+          <a href="ayuda.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="legal.html#aviso-legal">Aviso Legal</a>
+          <a href="legal.html#privacidad">Privacidad</a>
+          <a href="legal.html#cookies">Cookies</a>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+          <div class="footer-contact">
+            <a href="mailto:perfectshirt@gmail.com">perfectshirt@gmail.com</a>
+            <a href="tel:+34681084232">(+34) 681 084 232</a>
+            <span class="footer-address"
+              >C/ Ventallat, 14, 4º 409, 08012 Barcelona</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="text-center"
+        style="font-size: 0.8rem; color: var(--text-muted); margin-top: 40px"
+      >
+        © 2025 PerfecT-shirt. Todos los derechos reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="../js/currency.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/customizer.js"></script>
+    <script src="../js/responsive.js"></script>
+    <script src="../js/darkmode.js"></script>
+  </body>
+  <!-- PANTALLA DE CARGA -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-logo">perfecT-<span>shirt</span></div>
+  </div>
+</html>
