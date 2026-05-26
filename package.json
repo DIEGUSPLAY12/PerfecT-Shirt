@@ -1,0 +1,31 @@
+{
+  "name": "perfect-shirt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && ./vendor/bin/sail up",
+    "stop:backend": "cd backend && ./vendor/bin/sail down",
+    "dev:frontend": "vite frontend --port 3000",
+    "build": "vite build frontend",
+    "migrate": "cd backend && ./vendor/bin/sail artisan migrate",
+    "seed": "cd backend && ./vendor/bin/sail artisan db:seed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DIEGUSPLAY12/PerfecT-Shirt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DIEGUSPLAY12/PerfecT-Shirt/issues"
+  },
+  "homepage": "https://github.com/DIEGUSPLAY12/PerfecT-Shirt#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "vite": "^8.0.14"
+  }
+}
