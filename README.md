@@ -13,7 +13,7 @@ Este repositorio contiene la aplicación completa (Frontend + Backend) unificada
 ## ⚙️ Instalación (Primer arranque)
 1. Instalar las dependencias de orquestación en la raíz:
    ```bash
-   npm install
+   pnpm install
    ```
 2. Inicializar el backend por primera vez (Solo necesario si no tienes la carpeta `vendor` inicializada):
    ```bash
@@ -24,7 +24,7 @@ Este repositorio contiene la aplicación completa (Frontend + Backend) unificada
 Puedes iniciar ambos servidores al mismo tiempo (tanto frontend como el backend de Sail) usando el script del repositorio raíz:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 **Esto iniciará:**
 - 🖼 Frontend (Vite) en `http://localhost:3000`
@@ -33,13 +33,13 @@ npm run dev
 ## 🗄 Migraciones y Base de Datos
 Si necesitas recrear la base de datos o insertar datos semilla, puedes ejecutar:
 ```bash
-npm run migrate
-npm run seed
+pnpm run migrate
+pnpm run seed
 ```
 
 ## 🛑 Detener los Servicios
 ```bash
-npm run stop:backend
+pnpm run stop:backend
 ```
 
 _Desarrollado y preparado para trabajar de forma profesional en producción._
